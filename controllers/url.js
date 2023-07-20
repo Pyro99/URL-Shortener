@@ -1,16 +1,17 @@
-const URL = require("../models/url.js");
-const shortid = require("shortid");
+const URL = require('../models/url.js');
+const shortid = require('shortid');
 
 const handleCreateShortURL = async (req, res) => {
-  if (!req.body.url) return res.status(400).json({ error: "URL required" });
+  if (!req.body.url) return res.status(400).json({ error: 'URL required' });
   const shortID = shortid();
   await URL.create({
     shortId: shortID,
     redirectURL: req.body.url,
     visited: [],
   });
-
-  return res.json({ id: shortID });
+  return res.render('home', {
+    id: shortID,
+  });
 };
 
 const handleRedirectURL = async (req, res) => {
